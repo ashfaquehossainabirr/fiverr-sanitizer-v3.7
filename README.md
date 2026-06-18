@@ -60,5 +60,8 @@ The app is designed to work entirely on the client side, making it fast, respons
 - Ready for future backend integration
 
 
+
 📌 Summary
+<br/>
+
 This app demonstrates how powerful writing tools can be built using pure React logic and browser APIs, without relying on heavy third-party services. It is ideal for learning projects, portfolios, or as a foundation for a full-scale writing assistant.
