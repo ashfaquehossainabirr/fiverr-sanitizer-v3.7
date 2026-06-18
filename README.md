@@ -59,7 +59,8 @@ The app is designed to work entirely on the client side, making it fast, respons
 - Plug in an external grammar or AI API if needed
 - Ready for future backend integration
 
-
+<br/>
+<br/>
 
 📌 Summary
 <br/>
