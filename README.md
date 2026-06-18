@@ -1,32 +1,64 @@
-# Fiverr Sanitizer Version 3.2
+# Fiverr Sanitizer Version 3.7
 
-Fiverr Message Sanitizer is a modern React-based web application designed to help users write clear, professional, and error-free English messages. The app sanitizes raw text, highlights spelling mistakes, suggests grammar improvements, and provides instant translation to Bengali all in real time.
+Fiverr Message Sanitizer is a modern Text Improvement & Language Utility Tool built with React. It helps users write clearer, more professional content by combining grammar suggestions, spelling corrections, word & character analysis, language translation, and read-aloud functionality in a clean, user-friendly interface.
 
-This project is especially useful for freelancers, content writers, and non-native English speakers who want to improve the quality of their messages before sending them to clients.
+The app is designed to work entirely on the client side, making it fast, responsive, and easy to deploy without any backend dependencies.
 
 
 ## Key Features
 
-✍️ Real-time Text Sanitization
-Automatically cleans and normalizes user input for better readability.
+📝 Smart Text Analysis
+- Real-time word count and character count
+- Ignores leading spaces (spaces typed before any letter or number are not counted)
+- Debounced typing for better performance
 
-🧠 Grammar Suggestions Engine
-Detects common grammar issues (informal words, repeated words, weak phrases) and suggests professional alternatives with one-click fixes.
+🧠 Grammar Suggestions
+- Detects informal phrases, repeated words, and weak wording
+- Provides clear improvement suggestions
+- Allows users to apply fixes instantly
+- Beautiful, scrollable warning panel with a max height for better readability
 
-🔍 Spelling Mistake Detection & Highlighting
-Incorrect spellings are visually highlighted in the preview area for easy identification.
+✏️ Spelling Corrections
+- Detects common spelling mistakes
+- Suggests accurate replacements
+- Easily extendable rule-based spelling system
 
-🌍 English to Bengali Translation
-Instantly translate sanitized text into Bengali using Google Translate API.
+🌐 Language Translation
+- One-click English → Bengali translation
+- Clean output with sanitized preview
+- Scrollable preview area for long text
 
-⏱ Debounced Input Processing
-Improves performance by processing text only after the user pauses typing.
+🔊 Read Aloud (Text-to-Speech)
+- Reads sanitized text using the Web Speech API
+- Supports Read, Pause, Resume, and Stop
+- Automatically stops when text changes
+- Fully animated and accessible buttons
 
-📊 Live Word & Character Counter
-Accurate counters that ignore leading spaces and empty input.
+🎨 Modern UI & UX
+- Animated focus borders for text input
+- Smooth hover and click animations
+- Copy button with feedback animation
+- Responsive layout for all screen sizes
 
-📋 One-Click Copy
-Copy the sanitized version of the text directly to the clipboard.
+🛠️ Tech Stack
+- React (Functional Components & Hooks)
+- CSS (Custom animations & modern styling)
+- Web Speech API for text-to-speech
+- No external libraries required for core functionality
 
-🧼 Clear Input Button
-Quickly reset the editor and start fresh.
+📦 Use Cases
+- Improving professional emails and messages
+- Practicing better English writing
+- Quick grammar and spelling checks
+- Content preparation for blogs or social media
+- Learning pronunciation through read-aloud
+
+🔧 Customization & Extensibility
+- Easily add new grammar or spelling rules
+- Extend translation support to more languages
+- Plug in an external grammar or AI API if needed
+- Ready for future backend integration
+
+
+📌 Summary
+This app demonstrates how powerful writing tools can be built using pure React logic and browser APIs, without relying on heavy third-party services. It is ideal for learning projects, portfolios, or as a foundation for a full-scale writing assistant.
