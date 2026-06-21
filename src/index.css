@@ -453,6 +453,20 @@ button.apply-btn:hover {
   box-shadow: 0 10px 20px rgba(239, 68, 68, 0.45);
 }
 
+.time-comp {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+
+p.time-box {
+  color: #fff;
+}
+
+p.date-box {
+  color: #fff;
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
   .editor-row {
@@ -466,5 +480,9 @@ button.apply-btn:hover {
   h1.headline-text {
     margin-bottom: 40px;
     font-size: 28px;
+  }
+
+  .time-comp {
+    display: none;
   }
 }

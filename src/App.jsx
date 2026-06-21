@@ -192,138 +192,157 @@ export default function App() {
     setReservedWarnings(warnings);
   }, [debouncedInput]);
 
+  // Date/Time Functionality
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+      const timer = setInterval(() => {
+      setNow(new Date());
+      }, 1000);
+
+      return () => clearInterval(timer);
+  });
+
   /* -------------------- UI -------------------- */
   return (
-    <div className="app-root">
-      <div className="app-wrapper">
-        <h1 className="headline-text">Fiverr Message Sanitizer</h1>
+    <>
+      {/* Time Component */}
+      <div className='time-comp'>
+        <p className='time-box'>Time: <span>{ now.toLocaleTimeString() }</span></p>
+        <p className='date-box'>Date: <span>{ now.toLocaleDateString() }</span></p>
+      </div>
 
-        <div className="editor-row">
-          {/* INPUT COLUMN */}
-          <div className="editor-column">
-            <div className="input-header">
-              <label>Input Text</label>
+      <div className="app-root">
+        <div className="app-wrapper">
+          <h1 className="headline-text">Fiverr Message Sanitizer</h1>
 
-              {input && (
-                <button
-                  type="button"
-                  className="clear-btn"
-                  onClick={clearText}
-                >
-                  Clear
-                </button>
+          <div className="editor-row">
+            {/* INPUT COLUMN */}
+            <div className="editor-column">
+              <div className="input-header">
+                <label>Input Text</label>
+
+                {input && (
+                  <button
+                    type="button"
+                    className="clear-btn"
+                    onClick={clearText}
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              <textarea
+                placeholder="Type your text here..."
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  setIsTranslated(false);
+                  setTranslatedText("");
+                }}
+              />
+
+              <div className="counter">
+                Words: {wordCount} | Characters: {charCount}
+              </div>
+
+              {/* RESERVED KEYWORD WARNINGS */}
+              {reservedWarnings.length > 0 && (
+                <div className="warning-box">
+                  <h3>Compliance Warnings</h3>
+
+                  {reservedWarnings.map((item, index) => (
+                    <div key={index} className="warning-item">
+                      <span className="warning-icon">⚠️</span>
+                      <span>{item.message}</span>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
-            <textarea
-              placeholder="Type your text here..."
-              value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-                setIsTranslated(false);
-                setTranslatedText("");
-              }}
-            />
+            {/* PREVIEW COLUMN */}
+            <div className="editor-column">
+              <div className="preview-header">
+                <label>Sanitized Preview</label>
 
-            <div className="counter">
-              Words: {wordCount} | Characters: {charCount}
-            </div>
-
-            {/* RESERVED KEYWORD WARNINGS */}
-            {reservedWarnings.length > 0 && (
-              <div className="warning-box">
-                <h3>Compliance Warnings</h3>
-
-                {reservedWarnings.map((item, index) => (
-                  <div key={index} className="warning-item">
-                    <span className="warning-icon">⚠️</span>
-                    <span>{item.message}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* PREVIEW COLUMN */}
-          <div className="editor-column">
-            <div className="preview-header">
-              <label>Sanitized Preview</label>
-
-              <div className="preview-actions">
-                <button
-                  className="translate-btn"
-                  disabled={!hasRealText}
-                  onClick={translateToBengali}
-                >
-                  Translate to Bengali
-                </button>
-
-                <button
-                  className={`read-btn ${isSpeaking ? "speaking" : ""}`}
-                  disabled={!hasRealText}
-                  onClick={() => {
-                    if (!isSpeaking) startReading();
-                    else if (isPaused) resumeReading();
-                    else pauseReading();
-                  }}
-                >
-                  {!isSpeaking && "Read"}
-                  {isSpeaking && !isPaused && "Pause"}
-                  {isSpeaking && isPaused && "Resume"}
-                </button>
-
-                {isSpeaking && (
-                  <button className="stop-btn" onClick={stopReading}>
-                    Stop
+                <div className="preview-actions">
+                  <button
+                    className="translate-btn"
+                    disabled={!hasRealText}
+                    onClick={translateToBengali}
+                  >
+                    Translate to Bengali
                   </button>
-                )}
 
-                <button
-                  className={`copy-btn ${copied ? "copied" : ""}`}
-                  disabled={!hasRealText}
-                  onClick={copyText}
-                >
-                  {copied ? "Copied!" : "Copy"}
-                </button>
+                  <button
+                    className={`read-btn ${isSpeaking ? "speaking" : ""}`}
+                    disabled={!hasRealText}
+                    onClick={() => {
+                      if (!isSpeaking) startReading();
+                      else if (isPaused) resumeReading();
+                      else pauseReading();
+                    }}
+                  >
+                    {!isSpeaking && "Read"}
+                    {isSpeaking && !isPaused && "Pause"}
+                    {isSpeaking && isPaused && "Resume"}
+                  </button>
+
+                  {isSpeaking && (
+                    <button className="stop-btn" onClick={stopReading}>
+                      Stop
+                    </button>
+                  )}
+
+                  <button
+                    className={`copy-btn ${copied ? "copied" : ""}`}
+                    disabled={!hasRealText}
+                    onClick={copyText}
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div
-              className="preview-box"
-              dangerouslySetInnerHTML={{
-                __html: isTranslated
-                  ? translatedText
-                  : hasRealText
-                  ? highlightSanitized(sanitized)
-                  : "Nothing to preview yet..."
-              }}
-            />
+              <div
+                className="preview-box"
+                dangerouslySetInnerHTML={{
+                  __html: isTranslated
+                    ? translatedText
+                    : hasRealText
+                    ? highlightSanitized(sanitized)
+                    : "Nothing to preview yet..."
+                }}
+              />
+            </div>
           </div>
+
+          {/* GRAMMAR SUGGESTIONS */}
+          {grammarSuggestions.length > 0 && (
+            <div className="grammar-box">
+              <h3>Grammar Suggestions</h3>
+
+              {grammarSuggestions.map((item, index) => (
+                <div key={index} className="grammar-item">
+                  <span>{item.message}</span>
+
+                  <button className="apply-btn" onClick={() => applyGrammarFix(item.fixedText)}>
+                    Apply
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* GRAMMAR SUGGESTIONS */}
-        {grammarSuggestions.length > 0 && (
-          <div className="grammar-box">
-            <h3>Grammar Suggestions</h3>
-
-            {grammarSuggestions.map((item, index) => (
-              <div key={index} className="grammar-item">
-                <span>{item.message}</span>
-
-                <button className="apply-btn" onClick={() => applyGrammarFix(item.fixedText)}>
-                  Apply
-                </button>
-              </div>
-            ))}
+        {copySuccess && (
+          <div className="copy-toast">
+            ✔ Text copied to clipboard
           </div>
         )}
       </div>
-
-      {copySuccess && (
-        <div className="copy-toast">
-          ✔ Text copied to clipboard
-        </div>
-      )}
-    </div>
+    </>
   );
 }
