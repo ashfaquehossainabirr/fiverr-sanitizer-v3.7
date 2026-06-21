@@ -215,6 +215,10 @@ export default function App() {
       <div className="app-root">
         <div className="app-wrapper">
           <h1 className="headline-text">Fiverr Message Sanitizer</h1>
+          {/* Credit */}
+            <p className="subtitle">
+              Developed By <a href="https://bd.linkedin.com/in/ashfaque-hossain-abir-91151723b">Ashfaque Hossain Abir</a>
+          </p>
 
           <div className="editor-row">
             {/* INPUT COLUMN */}

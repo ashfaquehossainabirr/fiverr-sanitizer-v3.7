@@ -467,6 +467,18 @@ p.date-box {
   color: #fff;
 }
 
+.subtitle {
+  margin: 8px 0 20px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.subtitle a {
+  color: #2563eb;
+  display: inline-block;
+  text-decoration: none;
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
   .editor-row {
