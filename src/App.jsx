@@ -32,7 +32,11 @@ export default function App() {
   const hasRealText = normalizedInput.trim().length > 0;
 
   /* -------------------- SANITIZE -------------------- */
-  const sanitized = hasRealText ? sanitizeText(normalizedInput) : "";
+  // const sanitized = hasRealText ? sanitizeText(normalizedInput) : "";
+
+  const { text: sanitized, emailRemoved } = hasRealText
+  ? sanitizeText(normalizedInput)
+  : { text: "", emailRemoved: false };
 
   /* -------------------- COUNTERS -------------------- */
   const wordCount = hasRealText
@@ -161,10 +165,10 @@ export default function App() {
   const highlightSanitized = (text) => {
     let highlightedText = text;
 
+    // Highlight spelling issues
     grammarSuggestions.forEach((item) => {
       if (item.type === "spelling" && item.incorrect) {
         const regex = new RegExp(`\\b(${item.incorrect})\\b`, "gi");
-
         highlightedText = highlightedText.replace(
           regex,
           `<span class="spell-error">$1</span>`
@@ -172,6 +176,13 @@ export default function App() {
       }
     });
 
+    // Highlight phone numbers (already sanitized with dashes)
+    highlightedText = highlightedText.replace(
+      /\b\d(-\d)+\b/g,
+      `<span class="phone-highlight">$&</span>`
+    );
+
+    // Highlight sanitized reserved words
     highlightedText = highlightedText.replace(
       /(\b\w_\w+\b)/g,
       `<span class="highlight">$1</span>`
@@ -262,6 +273,15 @@ export default function App() {
                       <span>{item.message}</span>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {emailRemoved && (
+                <div className="warning-box">
+                  <div className="warning-item">
+                    <span className="warning-icon">⚠️</span>
+                    <span>Email address was removed for compliance reasons.</span>
+                  </div>
                 </div>
               )}
             </div>

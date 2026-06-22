@@ -158,6 +158,14 @@ button.apply-btn:hover {
   border-radius: 4px;
 }
 
+.phone-highlight {
+  background: rgba(0, 150, 255, 0.15);
+  color: #005fcc;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
 /* INPUT HEADER */
 .input-header {
   display: flex;
