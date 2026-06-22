@@ -38,14 +38,15 @@ export default function App() {
   : { text: "", emailRemoved: false };
 
   /* -------------------- COUNTERS -------------------- */
-  
-  // Detect first real character (letter or number)
-  const hasStartedTyping = /[a-zA-Z0-9]/.test(normalizedInput);
 
-  const charCount = hasStartedTyping ? normalizedInput.length : 0;
+  const hasRealCharacter = /[a-zA-Z0-9]/.test(input);
+  const charCount = hasRealCharacter ? input.length : 0;
 
-  const wordCount = hasStartedTyping
-    ? normalizedInput.trim().split(/\s+/).length
+  const wordCount = hasRealCharacter
+    ? input
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean).length
     : 0;
 
   /* -------------------- GRAMMAR SUGGESTIONS -------------------- */
