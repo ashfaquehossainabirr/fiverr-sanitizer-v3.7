@@ -32,18 +32,25 @@ export default function App() {
   const hasRealText = normalizedInput.trim().length > 0;
 
   /* -------------------- SANITIZE -------------------- */
-  // const sanitized = hasRealText ? sanitizeText(normalizedInput) : "";
 
   const { text: sanitized, emailRemoved } = hasRealText
   ? sanitizeText(normalizedInput)
   : { text: "", emailRemoved: false };
 
   /* -------------------- COUNTERS -------------------- */
-  const wordCount = hasRealText
-    ? normalizedInput.trim().split(/\s+/).length
+  // Find first letter or number
+  const firstRealCharIndex = normalizedInput.search(/[a-zA-Z0-9]/);
+  const hasStartedTyping = firstRealCharIndex !== -1;
+
+  const countableText = hasStartedTyping
+    ? normalizedInput.slice(firstRealCharIndex)
+    : "";
+
+  const wordCount = hasStartedTyping
+    ? countableText.trim().split(/\s+/).length
     : 0;
 
-  const charCount = hasRealText ? normalizedInput.length : 0;
+  const charCount = hasStartedTyping ? countableText.length : 0;
 
   /* -------------------- GRAMMAR SUGGESTIONS -------------------- */
   useEffect(() => {
