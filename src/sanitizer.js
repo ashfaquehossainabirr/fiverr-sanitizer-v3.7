@@ -1,3 +1,6 @@
+/* ===============================
+   RESERVED KEYWORDS
+================================ */
 export const RESERVED_KEYWORDS = [
   "contact",
   "paid",
@@ -33,80 +36,71 @@ export const RESERVED_KEYWORDS = [
   "phone"
 ];
 
-// Replacement keywords
+/* ===============================
+   REPLACEMENT WORDS
+================================ */
 const REPLACEMENTS = {
   review: "check",
   feedback: "response"
 };
 
-// URL detection
-const URL_REGEX =
-  /\bhttps?:\/\/[^\s]+|\bwww\.[^\s]+|\b[a-z0-9-]+\.(com|net|org|io|co|me|info)\b/gi;
-
-// Email detection
+/* ===============================
+   REGEX PATTERNS
+================================ */
 const EMAIL_REGEX =
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 
-// Phone number detection (local + international)
-const PHONE_REGEX =
-  /\b(\+?\d{1,3}[\s-]?)?\d{10,14}\b/g;
+const URL_REGEX =
+  /\bhttps?:\/\/[^\s]+|\bwww\.[^\s]+|\b[a-z0-9-]+\.(com|net|org|io|co|me|info)\b/gi;
 
-// Insert "_" after first character
+/* ===============================
+   HELPERS
+================================ */
+
+// Inserts "_" after first character
 function sanitizeWord(word) {
   if (!word || word.length < 2) return word;
   if (word[1] === "_") return word;
   return `${word[0]}_${word.slice(1)}`;
 }
 
-// Sanitize email
+// Turns email into a-b-c-@-g-m-a-i-l-.-c-o-m
 function sanitizeEmail(email) {
-  return email.replace(/[a-zA-Z]/g, (char, i) =>
-    i === 0 ? char : `_${char}`
-  );
+  return email.split("").join("-");
 }
 
-// Sanitize phone
-function sanitizePhone(phone) {
-  return phone.replace(/\d/g, (d, i) => (i === 0 ? d : `_${d}`));
-}
-
+/* ===============================
+   MAIN SANITIZER
+================================ */
 export function sanitizeText(text) {
   if (!text) return text;
 
   let sanitized = text;
 
-  const urls = [];
   const emails = [];
-  const phones = [];
+  const urls = [];
 
-  // Remove URLs
-  sanitized = sanitized.replace(URL_REGEX, (match) => {
-    const placeholder = `__URL_${urls.length}__`;
-    urls.push(match);
-    return placeholder;
-  });
-
-  // Remove Emails
+  /* REMOVE EMAILS FIRST */
   sanitized = sanitized.replace(EMAIL_REGEX, (match) => {
     const placeholder = `__EMAIL_${emails.length}__`;
     emails.push(match);
     return placeholder;
   });
 
-  // Remove Phone Numbers
-  sanitized = sanitized.replace(PHONE_REGEX, (match) => {
-    const placeholder = `__PHONE_${phones.length}__`;
-    phones.push(match);
+  /* REMOVE URLs */
+  sanitized = sanitized.replace(URL_REGEX, (match) => {
+    const placeholder = `__URL_${urls.length}__`;
+    urls.push(match);
     return placeholder;
   });
 
-  // Replace mapped keywords
+  /* REPLACE SAFE WORDS */
   Object.keys(REPLACEMENTS).forEach((key) => {
     const regex = new RegExp(`\\b${key}\\b`, "gi");
     sanitized = sanitized.replace(regex, REPLACEMENTS[key]);
   });
 
-  // Sanitize reserved keywords
+  /* SANITIZE RESERVED KEYWORDS */
   RESERVED_KEYWORDS.forEach((keyword) => {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     sanitized = sanitized.replace(regex, (match) =>
@@ -114,7 +108,7 @@ export function sanitizeText(text) {
     );
   });
 
-  // Restore Emails (sanitized)
+  /* RESTORE EMAILS (SANITIZED) */
   emails.forEach((email, index) => {
     sanitized = sanitized.replace(
       `__EMAIL_${index}__`,
@@ -122,15 +116,7 @@ export function sanitizeText(text) {
     );
   });
 
-  // Restore Phones (sanitized)
-  phones.forEach((phone, index) => {
-    sanitized = sanitized.replace(
-      `__PHONE_${index}__`,
-      sanitizePhone(phone)
-    );
-  });
-
-  // Restore URLs
+  /* RESTORE URLs (UNCHANGED) */
   urls.forEach((url, index) => {
     sanitized = sanitized.replace(`__URL_${index}__`, url);
   });
