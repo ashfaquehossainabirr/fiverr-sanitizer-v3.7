@@ -49,6 +49,9 @@ export default function App() {
         .filter(Boolean).length
     : 0;
 
+  const CHAR_LIMIT = 2500;
+  const isLimitExceeded = charCount > CHAR_LIMIT;
+
   /* -------------------- GRAMMAR SUGGESTIONS -------------------- */
   useEffect(() => {
     if (!hasRealText) {
@@ -262,7 +265,7 @@ export default function App() {
                 }}
               />
 
-              <div className="counter">
+              <div className={`counter ${isLimitExceeded ? "counter-error" : ""}`}>
                 Words: {wordCount} | Characters: {charCount}
               </div>
 
