@@ -263,9 +263,16 @@ export default function App() {
               </div>
 
               {/* RESERVED KEYWORD WARNINGS */}
-              {reservedWarnings.length > 0 && (
+              {(reservedWarnings.length > 0 || emailRemoved) && (
                 <div className="warning-box">
                   <h3>Compliance Warnings</h3>
+
+                  {emailRemoved && (
+                    <div className="warning-item">
+                      <span className="warning-icon">⚠️</span>
+                      <span>Email address was removed for compliance reasons.</span>
+                    </div>
+                  )}
 
                   {reservedWarnings.map((item, index) => (
                     <div key={index} className="warning-item">
@@ -273,15 +280,6 @@ export default function App() {
                       <span>{item.message}</span>
                     </div>
                   ))}
-                </div>
-              )}
-
-              {emailRemoved && (
-                <div className="warning-box">
-                  <div className="warning-item">
-                    <span className="warning-icon">⚠️</span>
-                    <span>Email address was removed for compliance reasons.</span>
-                  </div>
                 </div>
               )}
             </div>
