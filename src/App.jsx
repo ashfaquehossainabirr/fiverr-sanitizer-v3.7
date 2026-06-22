@@ -38,9 +38,7 @@ export default function App() {
   : { text: "", emailRemoved: false };
 
   /* -------------------- COUNTERS -------------------- */
-  // Find first letter or number
-  /* -------------------- COUNTERS (FIXED PROPERLY) -------------------- */
-
+  
   // Detect first real character (letter or number)
   const hasStartedTyping = /[a-zA-Z0-9]/.test(normalizedInput);
 
