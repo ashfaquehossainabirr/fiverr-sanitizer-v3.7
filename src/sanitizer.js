@@ -37,7 +37,7 @@ export const RESERVED_KEYWORDS = [
 ];
 
 /* ===============================
-   REPLACEMENT WORDS
+   SAFE WORD REPLACEMENTS
 ================================ */
 const REPLACEMENTS = {
   review: "check",
@@ -45,28 +45,25 @@ const REPLACEMENTS = {
 };
 
 /* ===============================
-   REGEX PATTERNS
+   REGEX
 ================================ */
 const EMAIL_REGEX =
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 
-const URL_REGEX =
-  /\bhttps?:\/\/[^\s]+|\bwww\.[^\s]+|\b[a-z0-9-]+\.(com|net|org|io|co|me|info)\b/gi;
+// URL is allowed (do NOT remove)
+const PHONE_REGEX = /\b\d{10,15}\b/g;
 
 /* ===============================
    HELPERS
 ================================ */
-
-// Inserts "_" after first character
 function sanitizeWord(word) {
   if (!word || word.length < 2) return word;
   if (word[1] === "_") return word;
   return `${word[0]}_${word.slice(1)}`;
 }
 
-// Turns email into a-b-c-@-g-m-a-i-l-.-c-o-m
-function sanitizeEmail(email) {
-  return email.split("").join("-");
+function formatPhoneNumber(phone) {
+  return phone.split("").join("-");
 }
 
 /* ===============================
@@ -77,22 +74,13 @@ export function sanitizeText(text) {
 
   let sanitized = text;
 
-  const emails = [];
-  const urls = [];
+  /* REMOVE EMAILS COMPLETELY */
+  sanitized = sanitized.replace(EMAIL_REGEX, "");
 
-  /* REMOVE EMAILS FIRST */
-  sanitized = sanitized.replace(EMAIL_REGEX, (match) => {
-    const placeholder = `__EMAIL_${emails.length}__`;
-    emails.push(match);
-    return placeholder;
-  });
-
-  /* REMOVE URLs */
-  sanitized = sanitized.replace(URL_REGEX, (match) => {
-    const placeholder = `__URL_${urls.length}__`;
-    urls.push(match);
-    return placeholder;
-  });
+  /* FORMAT PHONE NUMBERS */
+  sanitized = sanitized.replace(PHONE_REGEX, (match) =>
+    formatPhoneNumber(match)
+  );
 
   /* REPLACE SAFE WORDS */
   Object.keys(REPLACEMENTS).forEach((key) => {
@@ -108,18 +96,14 @@ export function sanitizeText(text) {
     );
   });
 
-  /* RESTORE EMAILS (SANITIZED) */
-  emails.forEach((email, index) => {
-    sanitized = sanitized.replace(
-      `__EMAIL_${index}__`,
-      sanitizeEmail(email)
-    );
-  });
+  /* REMOVE UNSAFE SYMBOLS (URLs remain safe) */
+  sanitized = sanitized.replace(/[<>()[\]{}"'`;]/g, "");
 
-  /* RESTORE URLs (UNCHANGED) */
-  urls.forEach((url, index) => {
-    sanitized = sanitized.replace(`__URL_${index}__`, url);
-  });
+  /* CLEAN EXTRA SPACES */
+  sanitized = sanitized
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([.,!?])/g, "$1")
+    .trim();
 
   return sanitized;
 }
