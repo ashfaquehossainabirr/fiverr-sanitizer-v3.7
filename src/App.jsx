@@ -39,18 +39,16 @@ export default function App() {
 
   /* -------------------- COUNTERS -------------------- */
   // Find first letter or number
-  const firstRealCharIndex = normalizedInput.search(/[a-zA-Z0-9]/);
-  const hasStartedTyping = firstRealCharIndex !== -1;
+  /* -------------------- COUNTERS (FIXED PROPERLY) -------------------- */
 
-  const countableText = hasStartedTyping
-    ? normalizedInput.slice(firstRealCharIndex)
-    : "";
+  // Detect first real character (letter or number)
+  const hasStartedTyping = /[a-zA-Z0-9]/.test(normalizedInput);
+
+  const charCount = hasStartedTyping ? normalizedInput.length : 0;
 
   const wordCount = hasStartedTyping
-    ? countableText.trim().split(/\s+/).length
+    ? normalizedInput.trim().split(/\s+/).length
     : 0;
-
-  const charCount = hasStartedTyping ? countableText.length : 0;
 
   /* -------------------- GRAMMAR SUGGESTIONS -------------------- */
   useEffect(() => {
