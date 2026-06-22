@@ -43,14 +43,6 @@ const REPLACEMENTS = {
 const URL_REGEX =
   /\bhttps?:\/\/[^\s]+|\bwww\.[^\s]+|\b[a-z0-9-]+\.(com|net|org|io|co|me|info)\b/gi;
 
-// Email detection
-const EMAIL_REGEX =
-  /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
-
-// Phone number detection (local + international)
-const PHONE_REGEX =
-  /\b(\+?\d{1,3}[\s-]?)?\d{10,14}\b/g;
-
 // Insert "_" after first character
 function sanitizeWord(word) {
   if (!word || word.length < 2) return word;
@@ -58,45 +50,16 @@ function sanitizeWord(word) {
   return `${word[0]}_${word.slice(1)}`;
 }
 
-// Sanitize email
-function sanitizeEmail(email) {
-  return email.replace(/[a-zA-Z]/g, (char, i) =>
-    i === 0 ? char : `_${char}`
-  );
-}
-
-// Sanitize phone
-function sanitizePhone(phone) {
-  return phone.replace(/\d/g, (d, i) => (i === 0 ? d : `_${d}`));
-}
-
 export function sanitizeText(text) {
   if (!text) return text;
 
   let sanitized = text;
-
   const urls = [];
-  const emails = [];
-  const phones = [];
 
   // Remove URLs
   sanitized = sanitized.replace(URL_REGEX, (match) => {
     const placeholder = `__URL_${urls.length}__`;
     urls.push(match);
-    return placeholder;
-  });
-
-  // Remove Emails
-  sanitized = sanitized.replace(EMAIL_REGEX, (match) => {
-    const placeholder = `__EMAIL_${emails.length}__`;
-    emails.push(match);
-    return placeholder;
-  });
-
-  // Remove Phone Numbers
-  sanitized = sanitized.replace(PHONE_REGEX, (match) => {
-    const placeholder = `__PHONE_${phones.length}__`;
-    phones.push(match);
     return placeholder;
   });
 
@@ -111,22 +74,6 @@ export function sanitizeText(text) {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     sanitized = sanitized.replace(regex, (match) =>
       sanitizeWord(match)
-    );
-  });
-
-  // Restore Emails (sanitized)
-  emails.forEach((email, index) => {
-    sanitized = sanitized.replace(
-      `__EMAIL_${index}__`,
-      sanitizeEmail(email)
-    );
-  });
-
-  // Restore Phones (sanitized)
-  phones.forEach((phone, index) => {
-    sanitized = sanitized.replace(
-      `__PHONE_${index}__`,
-      sanitizePhone(phone)
     );
   });
 
