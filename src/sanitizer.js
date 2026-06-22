@@ -28,7 +28,9 @@ export const RESERVED_KEYWORDS = [
   "upwork",
   "freelancer",
   "service",
-  "services"
+  "services",
+  "mail",
+  "phone"
 ];
 
 // Replacement keywords
