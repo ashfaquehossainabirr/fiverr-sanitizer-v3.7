@@ -52,6 +52,8 @@ const EMAIL_REGEX =
 
 const PHONE_REGEX = /\b\d{10,15}\b/g;
 
+const URL_REGEX = /\bhttps?:\/\/[^\s]+/gi;
+
 /* ===============================
    HELPERS
 ================================ */
@@ -70,30 +72,41 @@ function formatPhoneNumber(phone) {
 ================================ */
 export function sanitizeText(text) {
   if (!text) {
-    return { text: "", emailRemoved: false };
+    return {
+      text: "",
+      emailRemoved: false
+    };
   }
 
   let sanitized = text;
   let emailRemoved = false;
 
-  /* REMOVE EMAILS + FLAG WARNING */
-  if (EMAIL_REGEX.test(sanitized)) {
-    sanitized = sanitized.replace(EMAIL_REGEX, "");
+  /* ===============================
+     REMOVE EMAILS (KEEP NEWLINES)
+  ================================ */
+  sanitized = sanitized.replace(EMAIL_REGEX, () => {
     emailRemoved = true;
-  }
+    return "";
+  });
 
-  /* FORMAT PHONE NUMBERS */
+  /* ===============================
+     FORMAT PHONE NUMBERS
+  ================================ */
   sanitized = sanitized.replace(PHONE_REGEX, (match) =>
     formatPhoneNumber(match)
   );
 
-  /* REPLACE SAFE WORDS */
+  /* ===============================
+     REPLACE SAFE WORDS
+  ================================ */
   Object.keys(REPLACEMENTS).forEach((key) => {
     const regex = new RegExp(`\\b${key}\\b`, "gi");
     sanitized = sanitized.replace(regex, REPLACEMENTS[key]);
   });
 
-  /* SANITIZE RESERVED KEYWORDS */
+  /* ===============================
+     SANITIZE RESERVED KEYWORDS
+  ================================ */
   RESERVED_KEYWORDS.forEach((keyword) => {
     const regex = new RegExp(`\\b${keyword}\\b`, "gi");
     sanitized = sanitized.replace(regex, (match) =>
@@ -101,14 +114,17 @@ export function sanitizeText(text) {
     );
   });
 
-  /* REMOVE UNSAFE SYMBOLS */
+  /* ===============================
+     REMOVE UNSAFE SYMBOLS
+  ================================ */
   sanitized = sanitized.replace(/[<>()[\]{}"'`;]/g, "");
 
-  /* CLEAN EXTRA SPACES */
+  /* ===============================
+     CLEAN SPACES (NOT NEWLINES)
+  ================================ */
   sanitized = sanitized
-    .replace(/\s{2,}/g, " ")
-    .replace(/\s+([.,!?])/g, "$1")
-    .trim();
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/ +([.,!?])/g, "$1");
 
   return {
     text: sanitized,
