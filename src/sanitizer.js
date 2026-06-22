@@ -50,6 +50,7 @@ const REPLACEMENTS = {
 const EMAIL_REGEX =
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 
+// URL is allowed (do NOT remove)
 const PHONE_REGEX = /\b\d{10,15}\b/g;
 
 /* ===============================
@@ -69,18 +70,12 @@ function formatPhoneNumber(phone) {
    MAIN SANITIZER
 ================================ */
 export function sanitizeText(text) {
-  if (!text) {
-    return { sanitizedText: text, warnings: [] };
-  }
+  if (!text) return text;
 
   let sanitized = text;
-  const warnings = [];
 
-  /* DETECT & REMOVE EMAILS */
-  if (EMAIL_REGEX.test(sanitized)) {
-    sanitized = sanitized.replace(EMAIL_REGEX, "");
-    warnings.push("Email addresses are not allowed and were removed.");
-  }
+  /* REMOVE EMAILS COMPLETELY */
+  sanitized = sanitized.replace(EMAIL_REGEX, "");
 
   /* FORMAT PHONE NUMBERS */
   sanitized = sanitized.replace(PHONE_REGEX, (match) =>
@@ -101,7 +96,7 @@ export function sanitizeText(text) {
     );
   });
 
-  /* REMOVE UNSAFE SYMBOLS */
+  /* REMOVE UNSAFE SYMBOLS (URLs remain safe) */
   sanitized = sanitized.replace(/[<>()[\]{}"'`;]/g, "");
 
   /* CLEAN EXTRA SPACES */
@@ -110,8 +105,5 @@ export function sanitizeText(text) {
     .replace(/\s+([.,!?])/g, "$1")
     .trim();
 
-  return {
-    sanitizedText: sanitized,
-    warnings
-  };
+  return sanitized;
 }
