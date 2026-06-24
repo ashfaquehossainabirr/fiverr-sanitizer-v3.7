@@ -82,7 +82,17 @@ export function sanitizeText(text) {
   let emailRemoved = false;
 
   /* ===============================
-     REMOVE EMAILS (KEEP NEWLINES)
+     EXTRACT URLS (PROTECT THEM)
+  ================================ */
+  const urls = [];
+  sanitized = sanitized.replace(URL_REGEX, (match) => {
+    const placeholder = `__URL_${urls.length}__`;
+    urls.push(match);
+    return placeholder;
+  });
+
+  /* ===============================
+     REMOVE EMAILS
   ================================ */
   sanitized = sanitized.replace(EMAIL_REGEX, () => {
     emailRemoved = true;
@@ -116,8 +126,9 @@ export function sanitizeText(text) {
 
   /* ===============================
      REMOVE UNSAFE SYMBOLS
+     (apostrophe kept)
   ================================ */
-  sanitized = sanitized.replace(/[<>()[\]{}"'`;]/g, "");
+  sanitized = sanitized.replace(/[<>()[\]{}"`;]/g, "");
 
   /* ===============================
      CLEAN SPACES (NOT NEWLINES)
@@ -125,6 +136,13 @@ export function sanitizeText(text) {
   sanitized = sanitized
     .replace(/[ \t]{2,}/g, " ")
     .replace(/ +([.,!?])/g, "$1");
+
+  /* ===============================
+     RESTORE URLS (UNCHANGED)
+  ================================ */
+  urls.forEach((url, index) => {
+    sanitized = sanitized.replace(`__URL_${index}__`, url);
+  });
 
   return {
     text: sanitized,
