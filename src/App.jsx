@@ -4,6 +4,8 @@ import { sanitizeText } from "./sanitizer";
 import { getGrammarSuggestions } from "./grammarSuggestions";
 import { getReservedWarnings } from "./utility/reservedWarnings.js";
 
+const URL_REGEX = /\bhttps?:\/\/[^\s]+/gi;
+
 export default function App() {
 
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -55,12 +57,15 @@ export default function App() {
   /* -------------------- GRAMMAR SUGGESTIONS -------------------- */
   useEffect(() => {
     if (!hasRealText) {
-      setGrammarSuggestions([]);
+      setReservedWarnings([]);
       return;
     }
 
-    const suggestions = getGrammarSuggestions(normalizedInput);
-    setGrammarSuggestions(suggestions);
+    // Remove URLs before checking reserved keywords
+    const inputWithoutUrls = normalizedInput.replace(URL_REGEX, "");
+
+    const warnings = getReservedWarnings(inputWithoutUrls);
+    setReservedWarnings(warnings);
   }, [debouncedInput]);
 
   const applyGrammarFix = (fixedText) => {
