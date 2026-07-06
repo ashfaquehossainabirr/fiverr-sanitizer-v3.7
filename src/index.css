@@ -138,6 +138,24 @@ textarea:focus {
   overflow-x: hidden;
 }
 
+/* Custom scrollbar for preview box */
+.preview-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.preview-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.preview-box::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+.preview-box::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
 /* Apply Button */
 button.apply-btn {
   background: linear-gradient(135deg, #4f46e5, #1e40af);
@@ -304,6 +322,24 @@ button.apply-btn:hover {
   max-height: 210px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+/* Custom scrollbar for warning box */
+.warning-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.warning-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.warning-box::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+.warning-box::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 .warning-box h3 {
