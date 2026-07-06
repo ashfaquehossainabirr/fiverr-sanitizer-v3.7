@@ -115,7 +115,7 @@ textarea:focus {
 }
 
 .preview-header button:disabled {
-  background: #d1d5db;
+  background: #e5e7eb !important;
   color: #6b7280;
   cursor: not-allowed;
   box-shadow: none;
@@ -222,7 +222,7 @@ button.apply-btn:hover {
 }
 
 .translate-btn:disabled {
-  background: #e5e7eb;
+  background: #e5e7eb !important;
   color: #6b7280;
   cursor: not-allowed;
   box-shadow: none;
@@ -406,6 +406,8 @@ button.apply-btn:hover {
 
 /* Disabled */
 .copy-btn:disabled {
+  background: #e5e7eb !important;
+  color: #6b7280;
   opacity: 0.6;
   cursor: not-allowed;
 }
