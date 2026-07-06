@@ -204,7 +204,7 @@ button.apply-btn:hover {
 }
 
 .translate-btn {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
   color: white;
   border: none;
   padding: 7px 16px;
@@ -374,7 +374,7 @@ button.apply-btn:hover {
   padding: 10px 18px;
   border-radius: 8px;
   border: none;
-  background: #4f46e5;
+  background: #4f46e5 !important;
   color: #fff;
   font-size: 14px;
   font-weight: 500;
@@ -398,7 +398,7 @@ button.apply-btn:hover {
 
 /* Copied state */
 .copy-btn.copied {
-  background: #16a34a;
+  background: #16a34a !important;
   /* animation: copy-pop 0.4s ease; */
   /* box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.25); */
   box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
@@ -427,7 +427,7 @@ button.apply-btn:hover {
    READ ALOUD BUTTON
 ============================ */
 .read-btn {
-  background: linear-gradient(135deg, #06b6d4, #0284c7);
+  background: linear-gradient(135deg, #06b6d4, #0284c7) !important;
   color: white;
   border: none;
   padding: 7px 16px;
@@ -445,12 +445,12 @@ button.apply-btn:hover {
 }
 
 .read-btn.speaking {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
 }
 
 /* STOP BUTTON */
 .stop-btn {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
   color: white;
   border: none;
   padding: 7px 16px;
