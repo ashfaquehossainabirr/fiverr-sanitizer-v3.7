@@ -319,26 +319,30 @@ button.apply-btn:hover {
   border-radius: 16px;
   background: linear-gradient(135deg, #fff7ed, #fffbeb);
   border: 1px solid #fed7aa;
-  max-height: 210px;
+}
+
+.warning-list {
+  padding-right: 6px;
+  max-height: 140px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-/* Custom scrollbar for warning box */
-.warning-box::-webkit-scrollbar {
+/* Custom scrollbar for warning list */
+.warning-list::-webkit-scrollbar {
   width: 6px;
 }
 
-.warning-box::-webkit-scrollbar-track {
+.warning-list::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.warning-box::-webkit-scrollbar-thumb {
+.warning-list::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 10px;
 }
 
-.warning-box::-webkit-scrollbar-thumb:hover {
+.warning-list::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
 
@@ -362,6 +366,24 @@ button.apply-btn:hover {
 
 .warning-icon {
   font-size: 18px;
+}
+
+/* Custom scrollbar for textbox */
+textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* ============================

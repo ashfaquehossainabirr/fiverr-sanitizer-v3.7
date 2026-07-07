@@ -279,19 +279,21 @@ export default function App() {
                 <div className="warning-box">
                   <h3>Compliance Warnings</h3>
 
-                  {emailRemoved && (
-                    <div className="warning-item">
-                      <span className="warning-icon">⚠️</span>
-                      <span>Email address was removed for compliance reasons.</span>
-                    </div>
-                  )}
+                  <div className="warning-list">
+                    {emailRemoved && (
+                      <div className="warning-item">
+                        <span className="warning-icon">⚠️</span>
+                        <span>Email address was removed for compliance reasons.</span>
+                      </div>
+                    )}
 
-                  {reservedWarnings.map((item, index) => (
-                    <div key={index} className="warning-item">
-                      <span className="warning-icon">⚠️</span>
-                      <span>{item.message}</span>
-                    </div>
-                  ))}
+                    {reservedWarnings.map((item, index) => (
+                      <div key={index} className="warning-item">
+                        <span className="warning-icon">⚠️</span>
+                        <span>{item.message}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
