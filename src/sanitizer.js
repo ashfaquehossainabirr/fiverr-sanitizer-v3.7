@@ -30,8 +30,6 @@ export const RESERVED_KEYWORDS = [
   "bank",
   "upwork",
   "freelancer",
-  "service",
-  "services",
   "mail",
   "phone"
 ];
