@@ -231,8 +231,8 @@ export default function App() {
     <>
       {/* Time Component */}
       <div className='time-comp'>
-        <p className='time-box'>Time: <span>{ now.toLocaleTimeString() }</span></p>
-        <p className='date-box'>Date: <span>{ now.toLocaleDateString() }</span></p>
+        <p className='time-box clock-time'>Time: <span>{ now.toLocaleTimeString() }</span></p>
+        <p className='date-box clock-time'>Date: <span>{ now.toLocaleDateString() }</span></p>
       </div>
 
       <div className="app-root">
