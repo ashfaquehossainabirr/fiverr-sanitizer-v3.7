@@ -132,7 +132,7 @@ export function sanitizeText(text) {
   /* ===============================
      REMOVE UNSAFE SYMBOLS
   ================================ */
-  sanitized = sanitized.replace(/[<>()[\]{}"`;]/g, "");
+  // sanitized = sanitized.replace(/[<>()[\]{}"`;]/g, "");
 
   /* ===============================
      CLEAN SPACES
