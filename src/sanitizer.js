@@ -30,6 +30,8 @@ export const RESERVED_KEYWORDS = [
   "bank",
   "upwork",
   "freelancer",
+  "service",
+  "services",
   "mail",
   "phone"
 ];
@@ -123,9 +125,14 @@ export function sanitizeText(text) {
   });
 
   /* ===============================
+     REMOVE DOUBLE ASTERISKS (**)
+  ================================ */
+  sanitized = sanitized.replace(/\*\*/g, "");
+
+  /* ===============================
      REMOVE UNSAFE SYMBOLS
   ================================ */
-  sanitized = sanitized.replace(/[<>[\]{}`;]/g, "");
+  sanitized = sanitized.replace(/[<>()[\]{}"`;]/g, "");
 
   /* ===============================
      CLEAN SPACES
