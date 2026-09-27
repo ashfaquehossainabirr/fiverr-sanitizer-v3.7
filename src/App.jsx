@@ -41,11 +41,11 @@ export default function App() {
 
   /* -------------------- COUNTERS -------------------- */
 
-  const hasRealCharacter = /[a-zA-Z0-9]/.test(input);
-  const charCount = hasRealCharacter ? input.length : 0;
+  const hasRealCharacter = /[a-zA-Z0-9]/.test(sanitized);
+  const charCount = hasRealCharacter ? sanitized.length : 0;
 
   const wordCount = hasRealCharacter
-    ? input
+    ? sanitized
         .trim()
         .split(/\s+/)
         .filter(Boolean).length
